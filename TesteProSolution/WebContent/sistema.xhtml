@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:p="http://primefaces.org/ui">	
+<h:head>
+</h:head>
+	<h:body>
+		<p:panel header="Cadastro Cliente">
+			<h:form id="form1">
+			<h:messages />
+				<p:panelGrid columns="2">
+					<h:outputText value="Nome" />
+					<p:inputText value="#{mb.cliente.nome}" required="true" />
+					
+					<h:outputText value="CPF"/>
+					<p:inputText value="#{mb.cliente.cpf}" required="true" />
+					
+					<h:outputText value="Data Nascimento" />
+					<p:calendar value="#{mb.cliente.dataNascimento}" required="true" />
+					
+					<h:outputText value="Telefone" />
+					<p:inputText value="#{mb.cliente.telefone}" required="true" />
+					
+					<h:outputText value="Email" />
+					<p:inputText value="#{mb.cliente.email}" required="true" />
+					
+					<h:outputText value="Nome Pai" />
+					<p:inputText value="#{mb.cliente.nomePai}" />
+					
+					<h:outputText value="Nome Mae" />
+					<p:inputText value="#{mb.cliente.nomeMae}" />
+					
+					<p:commandButton value="Gravar" action="#{mb.gravar}" update=":form1, :form2" ajax="true"></p:commandButton>
+				</p:panelGrid>
+			</h:form>
+		</p:panel>
+		<p />
+		<p />
+		<p:panel header="Clientes">
+			<h:form id="form2">
+				<p:dataTable value="#{mb.clientes}" var="linha" rows="5" paginator="true">
+				
+					<p:column headerText="ID">
+						<h:outputText value="#{linha.id}" />
+					</p:column>
+				
+					<p:column headerText="Nome">
+						<h:outputText value="#{linha.nome}" />
+					</p:column>
+					
+					<p:column headerText="CPF">
+						<h:outputText value="#{linha.cpf}" />
+					</p:column>
+					
+					<p:column headerText="Nascimento">
+						<h:outputText value="#{linha.dataNascimentoFormatada}" />
+					</p:column>
+					
+					<p:column headerText="Telefone">
+						<h:outputText value="#{linha.telefone}" />
+					</p:column>
+					
+					<p:column headerText="Email">
+						<h:outputText value="#{linha.email}" />
+					</p:column>
+					
+					<p:column headerText="Nome Pai">
+						<h:outputText value="#{linha.nomePai}" />
+					</p:column>
+					
+					<p:column headerText="Nome Mae">
+						<h:outputText value="#{linha.nomeMae}" />
+					</p:column>
+					
+					<p:column headerText="Editar">
+						<p:commandButton value="Editar" onclick="PF('ALTERA').show()" ajax="true" update=":form3" >
+							<f:setPropertyActionListener value="#{linha}" target="#{mb.cliente}">
+							</f:setPropertyActionListener>
+						</p:commandButton>
+					</p:column>
+					
+					<p:column headerText="Excluir">
+						<p:commandButton value="Excluir" action="#{mb.excluir}"  ajax="true" update=":form2">
+						<p:confirm header="Confirmar Exclusao" message="Deseja Excluir ?" />
+							<f:setPropertyActionListener value="#{linha}" target="#{mb.cliente}">
+							</f:setPropertyActionListener>
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>		
+				<p:growl></p:growl>	
+			</h:form>
+		</p:panel>
+		
+		<p:confirmDialog global="true">
+			<p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
+		
+		<p:dialog header="Atualização de Clientes" widgetVar="ALTERA" modal="true">
+			<p:panel header="Editar Dados">
+				<h:form id="form3">
+					<h:inputHidden value="#{mb.cliente.id}"></h:inputHidden>
+					
+					<p:panelGrid columns="2">
+						<h:outputText value="Nome" />
+					<p:inputText value="#{mb.cliente.nome}" required="true" />
+					
+					<h:outputText value="CPF" />
+					<p:inputText value="#{mb.cliente.cpf}" required="true" />
+					
+					<h:outputText value="Data Nascimento" />
+					<p:calendar value="#{mb.cliente.dataNascimento}" required="true" />
+					
+					<h:outputText value="Telefone" />
+					<p:inputText value="#{mb.cliente.telefone}" required="true" />
+					
+					<h:outputText value="Email" />
+					<p:inputText value="#{mb.cliente.email}" required="true" />
+					
+					<h:outputText value="Nome Pai" />
+					<p:inputText value="#{mb.cliente.nomePai}" />
+					
+					<h:outputText value="Nome Mae" />
+					<p:inputText value="#{mb.cliente.nomeMae}" />
+						
+						<p:commandButton value="Atualizar" action="#{mb.alterar}" update=":form1, :form2, :form3" ajax="true" onclick="PF('ALTERA').hide()">
+						</p:commandButton>
+					</p:panelGrid>
+				</h:form>
+			</p:panel>
+		</p:dialog>
+	</h:body>
+</html>
